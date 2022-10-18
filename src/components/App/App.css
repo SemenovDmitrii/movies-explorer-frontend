@@ -1,0 +1,10 @@
+.page {
+  font-family: Inter, Arial, sans-serif;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #202020;
+}
+
+.header__container-styles {
+  background-color: #073042;
+}
