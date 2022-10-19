@@ -92,6 +92,11 @@
   border-radius: 8px;
 }
 
+.login__input:focus-within {
+  box-shadow: 0 0 2pt 1pt #585858;
+  border-radius: 8px;
+}
+
 .login__input-error {
   font-size: 10px;
   font-weight: 400;

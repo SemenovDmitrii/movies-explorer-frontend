@@ -97,6 +97,11 @@
   border-radius: 8px;
 }
 
+.register__input:focus-within {
+  box-shadow: 0 0 2pt 1pt #585858;
+  border-radius: 8px;
+}
+
 .register__input_type_error {
   color: #ee3465;
 }

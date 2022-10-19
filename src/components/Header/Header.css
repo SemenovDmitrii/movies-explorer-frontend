@@ -50,7 +50,7 @@
   margin-right: 30px;
 }
 
-.header__sing-up {
+.header__singup {
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
@@ -61,11 +61,11 @@
   cursor: pointer;
 }
 
-.header__sing-up:hover {
+.header__singup:hover {
   opacity: 0.7;
 }
 
-.header__sign-in {
+.header__signin {
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
@@ -92,7 +92,7 @@
   display: none;
 }
 
-.header__sign-in:hover {
+.header__signin:hover {
   opacity: 0.8;
 }
 
@@ -111,7 +111,7 @@
   .header__menu-button {
     display: block;
     background-color: transparent;
-    background-image: url("../../images/hamburger-menu-icon.svg");
+    background-image: url("../../images/header_burger_menu_icon.svg");
     background-repeat: no-repeat;
     background-position: center;
     border: none;
@@ -137,11 +137,11 @@
     margin-right: 14px;
   }
 
-  .header__sing-up {
+  .header__singup {
     font-size: 10px;
   }
 
-  .header__sign-in {
+  .header__signin {
     font-size: 10px;
     width: 54px;
     height: 26px;

@@ -19,12 +19,12 @@ function Header(props) {
         <Route exact path="/">
           <ul className="header__navtab">
             <li className="header__navtab-element">
-              <Link className="header__sing-up" to="/signup">
+              <Link className="header__singup" to="/signup">
                 Регистрация
               </Link>
             </li>
             <li className="header__navtab-element">
-              <Link className="header__sign-in" to="/signin">
+              <Link className="header__signin" to="/signin">
                 Войти
               </Link>
             </li>

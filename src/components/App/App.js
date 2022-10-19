@@ -1,16 +1,16 @@
 import React from "react";
+import { Route, Switch } from "react-router-dom";
 import "./App.css";
 import Header from "../Header/Header";
-import { Route, Switch } from "react-router-dom";
 import Menu from "../Menu/Menu";
-import Footer from "../Footer/Footer";
 import Main from "../Main/Main";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
-import PageNotFound from "../PageNotFound/PageNotFound";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
+import Footer from "../Footer/Footer";
+import PageNotFound from "../PageNotFound/PageNotFound";
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);

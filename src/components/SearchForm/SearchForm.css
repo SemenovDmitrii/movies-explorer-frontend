@@ -34,7 +34,7 @@
   color: #ffffff;
   background-color: transparent;
   background-size: 22px 22px;
-  background-image: url("../../images/search-icon.svg");
+  background-image: url("../../images/search_form_icon.svg");
   background-repeat: no-repeat;
   background-position: 25px 50%;
   border: none;
@@ -49,6 +49,11 @@
 
 .search-form__input-container:hover {
   transition: opacity 0.3s linear;
+  box-shadow: 0 0 2pt 1pt #585858;
+  border-radius: 9px;
+}
+
+.search-form__input-container:focus-within {
   box-shadow: 0 0 2pt 1pt #585858;
   border-radius: 9px;
 }
