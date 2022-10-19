@@ -1,0 +1,135 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1140px;
+  margin: 79px auto 0;
+  padding-bottom: 20px;
+  width: 100%;
+}
+
+.footer__title {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+  color: #8b8b8b;
+  border-bottom: 1px solid #424242;
+  margin: 0 auto;
+  padding-bottom: 20px;
+  width: 100%;
+}
+
+.footer__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 17px;
+}
+
+.footer__copyright {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  color: #ffffff;
+  margin: 0;
+}
+
+.footer__list {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+}
+
+.footer__element {
+  margin-right: 20px;
+}
+
+.footer__element:last-of-type {
+  margin-right: 0;
+}
+
+.footer__link {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  color: #ffffff;
+  text-decoration: none;
+  text-align: center;
+  opacity: 1;
+  transition: opacity 0.2s linear;
+  cursor: pointer;
+}
+
+.footer__link:hover {
+  opacity: 0.7;
+}
+
+@media screen and (max-width: 1200px) {
+  .footer {
+    margin: 79px 30px 0;
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .footer__container {
+    margin-top: 19px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .footer {
+    max-width: 360px;
+    margin: 79px auto 0;
+    padding-bottom: 10px;
+  }
+
+  .footer__title {
+    font-size: 12px;
+    padding-bottom: 21px;
+  }
+
+  .footer__container {
+    flex-direction: column-reverse;
+    justify-content: center;
+    margin-top: 29px;
+  }
+
+  .footer__copyright {
+    font-size: 12px;
+    line-height: 15px;
+    color: #8b8b8b;
+  }
+
+  .footer__list {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .footer__element {
+    margin: 0 auto 12px;
+  }
+
+  .footer__element:last-of-type {
+    margin: 0 auto 30px;
+  }
+
+  .footer__link {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
+
+@media screen and (max-width: 416px) {
+  .footer {
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+}
