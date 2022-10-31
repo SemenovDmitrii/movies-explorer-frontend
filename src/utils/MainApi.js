@@ -1,6 +1,7 @@
 export class MainApi {
   constructor(config) {
     this._baseUrl = config.baseUrl;
+    this._headers = config.headers;
   }
 
   _checkResponse(res) {
@@ -48,7 +49,6 @@ export class MainApi {
         authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      credentials: "include",
       body: JSON.stringify({
         country: movie.country ? movie.country : "Страна не указана",
         director: movie.director ? movie.director : "Режиссер не указан",
@@ -81,4 +81,7 @@ export class MainApi {
 
 export const mainApi = new MainApi({
   baseUrl: "https://api.sdv.nomoredomains.icu",
+  headers: {
+    "content-type": "application/json"
+  }
 });
