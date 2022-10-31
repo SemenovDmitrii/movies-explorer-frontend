@@ -1,46 +1,26 @@
 import React from "react";
-import { Route, Switch, Link, NavLink } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../../images/header_logo.svg";
 import Navigation from "../Navigation/Navigation";
 import "./Header.css";
+import Token from "../../utils/Token";
 
-function Header(props) {
+
+function Header() {
+  const loggedIn = Token.get();
+  const { pathname } = useLocation();
   return (
     <header className="header">
-      <NavLink
-        className="header__logo-link"
-        activeClassName="header__logo-link_active"
-        exact
-        to="/"
+      <Link to="/"
+        className={
+          pathname === "/"
+            ? "header__logo-link_active"
+            : "header__logo-link"
+        }
       >
-        <img className="header__logo" src={logo} alt="Логотип" />
-      </NavLink>
-      <Switch>
-        <Route exact path="/">
-          <ul className="header__navtab">
-            <li className="header__navtab-element">
-              <Link className="header__singup" to="/signup">
-                Регистрация
-              </Link>
-            </li>
-            <li className="header__navtab-element">
-              <Link className="header__signin" to="/signin">
-                Войти
-              </Link>
-            </li>
-          </ul>
-        </Route>
-        <Route path={["/movies", "/saved-movies", "/profile"]}>
-          <div className="header__navigation">
-            <Navigation />
-          </div>
-          <button
-            type="button"
-            className="header__menu-button"
-            onClick={props.onOpenMenu}
-          />
-        </Route>
-      </Switch>
+        <img src={logo} alt="Логотип" className="header__logo" />
+      </Link>
+      <Navigation loggedIn={loggedIn} />
     </header>
   );
 }

@@ -35,9 +35,9 @@
 
 .profile__label {
   display: flex;
+  position: relative;
   align-items: center;
   width: 100%;
-  position: relative;
   height: 48px;
   border-bottom: 1px solid #424242;
 }
@@ -82,7 +82,19 @@
 
 .profile__input_type_error {
   color: #ee3465;
-  visibility: hidden;
+  border-bottom: 1px solid #ee3465;
+}
+
+.profile__input-error {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 16px;
+  color: #ee3465;
+  text-align: center;
+  position: absolute;
+  top: 32px;
+  left: 0;
+  right: 0;
 }
 
 .profile__edit-container {
@@ -123,6 +135,8 @@
   opacity: 1;
   transition: opacity 0.2s linear;
   cursor: pointer;
+  background-color: transparent;
+  border: none;
 }
 
 .profile__link:hover {
