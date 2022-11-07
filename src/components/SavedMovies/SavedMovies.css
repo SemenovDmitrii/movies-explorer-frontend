@@ -3,16 +3,3 @@
   flex-direction: column;
   min-height: 100vh;
 }
-
-.movies-cards__message {
-  font-weight: 400;
-  font-size: 28px;
-  line-height: 30px;
-  color: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  width: fit-content;
-  margin: 0 auto;
-}

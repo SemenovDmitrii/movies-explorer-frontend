@@ -4,53 +4,42 @@ import SearchForm from "../SearchForm/SearchForm";
 import Preloader from "../Preloader/Preloader";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import { useEffect, useState } from "react";
-import { searchMovies } from "../../utils/searchMovies";
+import { useState } from "react";
+import { SHORT_FILM } from "../../utils/constants";
 
-function SavedMovies({
-  movies,
-  loadSavedMovies,
-  isLoadingMovies,
-  loadingMoviesError,
-}) {
-  const [foundMovies, setFoundMovies] = useState([]);
+function SavedMovies({ movies, isLoadingMovies, loadingMoviesError }) {
+  const [currentSearchQuery, setCurrentSearchQuery] = useState("");
   const [query, setQuery] = useState("");
   const [isShort, setShort] = useState(false);
 
-  useEffect(() => {
-    loadSavedMovies();
-  }, []);
+  const submitSearchForm = (event) => {
+    event.preventDefault();
+    setQuery(currentSearchQuery);
+  };
 
-  useEffect(() => {
-    setFoundMovies(movies);
-  }, [movies]);
-
-  useEffect(() => {
-    if (movies.length) handleFoundMovies();
-  }, [isShort]);
-
-  function handleFoundMovies() {
-    setFoundMovies(searchMovies(movies, { query, isShort }));
-  }
+  const handleFoundMovies = movies
+    .filter((movie) =>
+      query ? movie.nameRU.toLowerCase().includes(query.toLowerCase()) : true
+    )
+    .filter((movie) => (isShort ? movie.duration <= SHORT_FILM : true));
 
   return (
     <div className="saved-movies">
       <Header />
       <SearchForm
-        searchMovies={handleFoundMovies}
+        onSubmit={submitSearchForm}
+        setSearchQuery={setCurrentSearchQuery}
         query={query}
         setQuery={setQuery}
         isShort={isShort}
         setShort={setShort}
       />
-      {movies.length === 0 && !foundMovies.length && (
-        <p className="movies-cards__message">Нет сохранённых фильмов</p>
-      )}
       {isLoadingMovies ? (
         <Preloader />
       ) : (
         <MoviesCardList
-          movies={foundMovies}
+          movies={handleFoundMovies}
+          query={query}
           loadingMoviesError={loadingMoviesError}
         />
       )}

@@ -16,6 +16,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import * as auth from "../../utils/Authorization";
 import { mainApi } from "../../utils/MainApi";
 import { moviesApi } from "../../utils/MoviesApi";
+import { movieConfig } from "../../utils/movieConfig";
 import Token from "../../utils/Token";
 import PopupMessage from "../PopupMessage/PopupMessage";
 import {
@@ -25,7 +26,6 @@ import {
   authSuccessful,
   profileSuccessful,
   profileError,
-  messageErrorMovies,
   signOutClick,
 } from "../../utils/constants";
 
@@ -51,55 +51,66 @@ function App() {
     token ? handleCheckToken(token) : setLoading(false);
   }
 
-  function loadAllMovies() {
-    const token = Token.get();
-    setLoadingMovies(true);
-    setLoadingMoviesError("");
+  useEffect(() => {
+    if (loggedIn) {
+      const token = Token.get();
+      mainApi.getSaveMovies(token).then((movies) => {
+        setSavedMovies(movies.map(movieConfig));
+      });
+    }
+  }, [loggedIn]);
 
-    Promise.all([moviesApi.getAllMovies(), mainApi.getSaveMovies(token)])
-      .then(([all, saved]) => {
-        setAllMovies(
-          all.map((movie) => {
-            let formatMovie = null;
-
-            saved.forEach((savedMovie) => {
-              if (savedMovie.movieId === movie.id) {
-                formatMovie = { ...movie, _id: savedMovie._id };
-              }
-            });
-
-            return formatMovie || movie;
+  useEffect(() => {
+    if (loggedIn) {
+      const movies = localStorage.getItem("allMovies");
+      if (movies) {
+        setAllMovies(JSON.parse(movies));
+      } else {
+        moviesApi
+          .getAllMovies()
+          .then((movies) => {
+            setAllMovies(movies);
+            localStorage.setItem("allMovies", JSON.stringify(movies));
           })
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-        setPopupTitle(messageErrorMovies);
-        setIsOpenPopupError(true);
-      })
-      .finally(() => {
-        setLoadingMovies(false);
-      });
-  }
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
+  }, [loggedIn]);
 
-  function loadSavedMovies() {
+  const handleSaveMovie = (movie) => {
     const token = Token.get();
-    setLoadingMovies(true);
-    setLoadingMoviesError("");
     mainApi
-      .getSaveMovies(token)
-      .then((movies) => {
-        setSavedMovies(movies);
+      .postMovies(movie, token)
+      .then((res) => {
+        setSavedMovies(savedMovies.concat(movieConfig(res)));
       })
       .catch((err) => {
         console.log(err);
-        setPopupTitle(messageErrorMovies);
-        setIsOpenPopupError(true);
-      })
-      .finally(() => {
-        setLoadingMovies(false);
       });
-  }
+  };
+
+  const handleDeleteMovie = (id) => {
+    const token = Token.get();
+    mainApi
+      .deleteMovie(id, token)
+      .then(() => {
+        const indexToRemove = savedMovies.findIndex(
+          (movie) => movie.savedId === id
+        );
+        if (indexToRemove >= 0) {
+          const result = [
+            ...savedMovies.slice(0, indexToRemove),
+            ...savedMovies.slice(indexToRemove + 1),
+          ];
+          setSavedMovies(result);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   function handleSignOutClick() {
     setCurrentUser({});
@@ -212,14 +223,9 @@ function App() {
     <AppContext.Provider
       value={{
         loggedIn: loggedIn,
-        savedMoviesContext: {
-          setSavedMovies,
-          savedMovies,
-        },
-        allMoviesContext: {
-          setAllMovies,
-          allMovies,
-        },
+        savedMovies: savedMovies,
+        saveMovie: handleSaveMovie,
+        deleteMovie: handleDeleteMovie,
       }}
     >
       <CurrentUserContext.Provider value={currentUser}>
@@ -238,10 +244,8 @@ function App() {
                 loggedIn={loggedIn}
                 component={Movies}
                 movies={allMovies}
-                loadAllMovies={loadAllMovies}
                 isLoadingMovies={isLoadingMovies}
                 loadingMoviesError={loadingMoviesError}
-                openPopup={openPopup}
               />
 
               <ProtectedRoute
@@ -249,10 +253,8 @@ function App() {
                 loggedIn={loggedIn}
                 component={SavedMovies}
                 movies={savedMovies}
-                loadSavedMovies={loadSavedMovies}
                 isLoadingMovies={isLoadingMovies}
                 loadingMoviesError={loadingMoviesError}
-                openPopup={openPopup}
               />
 
               <ProtectedRoute

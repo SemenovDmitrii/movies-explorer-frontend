@@ -14,3 +14,8 @@
 .header__container-styles {
   background-color: #073042;
 }
+
+button:disabled {
+  opacity: 0.3;
+  cursor: default !important;
+}

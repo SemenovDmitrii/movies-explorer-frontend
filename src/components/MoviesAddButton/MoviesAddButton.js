@@ -1,9 +1,6 @@
-import { useLocation } from "react-router-dom";
 import "./MoviesAddButton.css";
 
 function MoviesAddButton({ showMoreMovies }) {
-  const location = useLocation();
-  if (location.pathname === "/movies") {
     return (
       <div className="movies__download-more">
         <button
@@ -15,7 +12,6 @@ function MoviesAddButton({ showMoreMovies }) {
         </button>
       </div>
     );
-  }
 }
 
 export default MoviesAddButton;
