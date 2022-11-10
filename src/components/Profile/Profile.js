@@ -1,53 +1,77 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
 import "./Profile.css";
 import Header from "../Header/Header";
-import Menu from "../Menu/Menu";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { useFormWithValidation } from "../../utils/validation";
 
-export default function Profile(props) {
+function Profile({ onEditProfile, onSignOut, isWaitingResponse }) {
+  const currentUser = useContext(CurrentUserContext);
+  const { values, setValues, handleChange, errors, isValid } =
+    useFormWithValidation(currentUser);
+
+  React.useEffect(() => {
+    setValues({
+      name: currentUser.name,
+      email: currentUser.email,
+    });
+  }, [currentUser]);
+
   return (
     <>
-      <Header onOpenMenu={props.onOpenMenu} />
+      <Header />
       <section className="profile">
         <form className="profile__form">
-          <h2 className="profile__title">Привет, Дмитрий!</h2>
+          <h2 className="profile__title">{`Привет, ${currentUser.name}!`}</h2>
           <fieldset className="profile__inputs">
             <label className="profile__label">
               <input
                 className="profile__input"
                 type="text"
-                id="profile__input-name"
+                name="name"
+                minLength="2"
+                maxLength="30"
+                value={values.name || ""}
+                onInput={handleChange}
                 required
-                placeholder="Дмитрий"
               />
               <h4 className="profile__input-title">Имя</h4>
+              <span className="profile__input-error">{errors.name}</span>
             </label>
             <label className="profile__label">
               <input
                 className="profile__input"
+                name="email"
                 type="email"
-                id="profile__input-email"
-                required
-                placeholder="pochta@yandex.ru"
+                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}$"
+                value={values.email || ""}
+                onInput={handleChange}
               />
               <h4 className="profile__input-title">E-mail</h4>
+              <span className="profile__input-error">{errors.email}</span>
             </label>
-            <span
-              className="profile__input-type-error"
-              id="profile__input-name-error profile__input-email-error"
-            ></span>
           </fieldset>
           <div className="profile__edit-container profile__edit-container_enabled">
-            <button type="submit" className="profile__edit-button">
+            <button
+              type="button"
+              onClick={() => onEditProfile(values)}
+              className="profile__edit-button"
+              disabled={
+                isWaitingResponse ||
+                !isValid ||
+                (currentUser.name === values.name &&
+                  currentUser.email === values.email)
+              }
+            >
               Редактировать
             </button>
-            <Link className="profile__link" to="/">
+            <button className="profile__link" onClick={onSignOut}>
               Выйти из аккаунта
-            </Link>
+            </button>
           </div>
         </form>
       </section>
-      <Menu isOpen={props.isOpen} onClose={props.onClose} />
     </>
   );
 }
+
+export default Profile;
